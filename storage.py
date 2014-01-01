@@ -24,6 +24,12 @@ class Storage(object):
                 ids.append(k)
         return ids
 
+    def find_messages(self, data):
+        ids = {}
+        for mes in data:
+            ids[mes] = self.find_message(mes)
+        return ids
+
     @classmethod
     def to_db(cls, database):
         with open('database', 'wb') as f:
@@ -44,3 +50,4 @@ if __name__ == '__main__':
     storage = Storage()
     print(storage.get_db())
     print(storage.find_message('My First'))
+    print(storage.find_messages(['First', 'Second', 'Message']))
