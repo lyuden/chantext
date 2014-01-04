@@ -1,53 +1,37 @@
 import pickle
+from storage_class import Storage, to_db, from_db
 
 
-class Storage(object):
-    def __init__(self):
-        self.__database = Storage.from_db()
+#API
+storage = Storage()
 
-    def add_message(self, message):
-        self.__database['count'] += 1
-        db_ib = self.__database['count']
-        self.__database[db_ib] = message
-        Storage.to_db(self.__database)
 
-    def get_db(self):
-        return self.__database
+def get_db():
+    return storage.get_db()
 
-    def find_message(self, mes):
-        ids = []
-        db = self.__database
-        for k in db:
-            if k == 'count':
-                continue
-            if mes in db[k]:
-                ids.append(k)
-        return ids
 
-    def find_messages(self, data):
-        ids = {}
-        for mes in data:
-            ids[mes] = self.find_message(mes)
-        return ids
+def get_message(mes_id):
+    return storage.get_message(mes_id)
 
-    @classmethod
-    def to_db(cls, database):
-        with open('database', 'wb') as f:
-            pickle.dump(database, f)
 
-    @classmethod
-    def from_db(cls):
-        try:
-            with open('database', 'rb') as f:
-                return pickle.load(f)
-        except FileNotFoundError:
-            database = {'count': 0}
-            Storage.to_db(database)
-            return database
+def find_messages(words):
+    return storage.find_messages(words)[2]
+
+
+def create_message(mes_text):
+    storage.add_message(mes_text)
+    return True
+
+
+def update_message(mes_id, mes_text):
+    storage.update_message(mes_id, mes_text)
+    return True
 
 
 if __name__ == '__main__':
-    storage = Storage()
-    print(storage.get_db())
-    print(storage.find_message('My First'))
-    print(storage.find_messages(['First', 'Second', 'Message']))
+    print(get_db())
+    print(get_message(2))
+    print(find_messages(['My', 'Updated', 'Message', 'Second']))
+    #create_message('Test Test Test')
+    #update_message(4, 'Test2 Test2 Test2')
+    print(get_db())
