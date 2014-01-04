@@ -43,18 +43,8 @@ def api():
                         "Data updated"})
 
         
-
-                        
-        
-
-    
-
-
         
     
-if __name__ == '__main__':
-=======
->>>>>>> cb68b8007610811485bccc7a75151274fd9d4083
 
 @app.route('/api/search', methods=['PUT'])
 def search():
