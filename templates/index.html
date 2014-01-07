@@ -1,0 +1,43 @@
+<html>
+<head>
+ <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+ </head>
+<body>
+<script>
+$.ajaxSetup({
+    contentType : 'application/json',
+    processData : false
+});
+$.ajaxPrefilter( function( options, originalOptions, jqXHR ) {
+    if (options.data){
+        options.data=JSON.stringify(options.data);
+    }
+});
+
+  function SearchChange(){
+  
+   $.ajax({url:"/api/search", type:"PUT", data:{words:['a','b']}, success : function(data) { 
+
+   var tableres= $("#results")
+   tableres.empty()
+data.citation.forEach(function(wordid){
+ tableres.append("<tr><td>" + wordid+ "</td></tr>")
+
+
+
+})
+
+
+}})
+  
+  }
+</script>
+
+<table id = "results">
+</table>
+<input type="text" id = "searchmess" onkeypress="SearchChange()">
+</body>
+
+
+
+</html>

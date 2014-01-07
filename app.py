@@ -1,41 +1,31 @@
-from flask import Flask, request, jsonify
-from storage import find_messages
+from flask import Flask, request, jsonify,  render_template
+from storage import find_messages,  get_message, update_message,  create_message
+
 
 
 app = Flask(__name__)
 
 
-def to_db(value):
-    with open('database.txt', 'w') as db:
-        db.write(value)
-
-
-def get_from_db():
-    with open('database.txt') as db:
-        data = db.read()
-    return data
-
-
 @app.route('/')
 def index():
-    return "Hello,world"
+    return render_template("index.html")
 
 
-@app.route('/api',  methods=['GET', 'PUT'])
+@app.route('/api/message',  methods=['PUT', ])
 def api():
-    if request.method == 'GET':
-        return jsonify({"data": get_from_db()})
-    elif request.method == 'PUT':
+    if request.method == 'PUT':
         data = request.get_json(force=True)
-        to_db(data['key'])
-        return jsonify({"status": "Data updated"})
+        create_message(data['key'])
+        return jsonify({"status": "Message created"})
+
 
 
 @app.route('/api/search', methods=['PUT'])
 def search():
     if request.method == 'PUT':
         search_data = request.get_json(force=True)
-        messages = find_messages(search_data)
+        print(search_data)
+        messages = find_messages(search_data['words'])
         return jsonify({'citation': messages})
 
 
