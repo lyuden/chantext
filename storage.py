@@ -32,6 +32,6 @@ if __name__ == '__main__':
     print(get_db())
     print(get_message(2))
     print(find_messages(['My', 'Updated', 'Message', 'Second']))
-    #create_message('Test Test Test')
+    #create_message('abab')
     #update_message(4, 'Test2 Test2 Test2')
     print(get_db())
