@@ -50,6 +50,12 @@ class Storage(object):
         to_db(database)
         return True
 
+    def get_messages_list(self, limit=50):
+        temp = self.get_db()
+        temp.pop('count')
+        temp = list(temp.items())[0:limit]
+        return [{'id': mes[0], 'message': mes[1]} for mes in temp]
+
 
 def to_db(database):
     with open('database', 'wb') as f:

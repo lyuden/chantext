@@ -28,6 +28,9 @@ def update_message(mes_id, mes_text):
     return True
 
 
+def get_messages_list(limit=50):
+    return storage.get_messages_list(limit)
+
 if __name__ == '__main__':
     print(get_db())
     print(get_message(2))
@@ -35,3 +38,4 @@ if __name__ == '__main__':
     #create_message('abab')
     #update_message(4, 'Test2 Test2 Test2')
     print(get_db())
+    print(get_messages_list())
