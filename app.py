@@ -18,6 +18,12 @@ def api():
         create_message(data['key'])
         return jsonify({"status": "Message created"})
 
+@app.route("/api/message/<int:mes_id>")
+def get_message_response(mes_id):
+    if request.method == "GET":
+        return jsonify(get_message(mes_id))
+
+    
 
 
 @app.route('/api/search', methods=['PUT'])

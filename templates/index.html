@@ -16,16 +16,39 @@ $.ajaxPrefilter (function(options, originalOptions, jqXHR) {
     }
 });
 
+function setMessage(div,mes_id){
+
+    $.get("/api/message/"+mes_id,function(data){
+        div.textContent = data.message        
+    })
+   
+
+}
+
+
 function searchChange () {
     $.ajax({url:"/api/search", type:"PUT", data:{words:['a','b']}, success: function(data) { 
         var tableres = $("#results");
         tableres.empty();
         data.citation.forEach(function(wordid) {
-            tableres.append("<tr><td>" + wordid+ "</td></tr>");
+
+            var div = document.createElement("div")
+         
+            var td = document.createElement("td")
+            td.appendChild(div) 
+            var tr = document.createElement("tr")            
+            tr.appendChild(td)
+            
+            tableres.append(tr);
+
+            setMessage(div,wordid)
         });
     }
+
     });
 }
+
+
 </script>
 
 <table id="results">
