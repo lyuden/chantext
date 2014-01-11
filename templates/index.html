@@ -27,7 +27,10 @@ function setMessage(div,mes_id){
 
 
 function searchChange () {
-    $.ajax({url:"/api/search", type:"PUT", data:{words:['a','b']}, success: function(data) { 
+
+    var words = $("#searchmess")[0].value.split(" ")
+    $.ajax({url:"/api/search", type:"PUT", data:{words:words}, success: function(data) { 
+
         var tableres = $("#results");
         tableres.empty();
         data.citation.forEach(function(wordid) {
