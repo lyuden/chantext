@@ -24,7 +24,7 @@ class Storage(object):
         for k in db:
             if k == 'count':
                 continue
-            if mes in db[k]:
+            if mes in db[k].lower():
                 ids.append(k)
         return ids
 
