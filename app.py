@@ -1,6 +1,6 @@
 from flask import Flask, request, jsonify,  render_template
 from storage import find_messages,  get_message, update_message,  create_message
-
+from validation import filter_search
 
 
 app = Flask(__name__)
@@ -31,7 +31,7 @@ def search():
     if request.method == 'PUT':
         search_data = request.get_json(force=True)
         print(search_data)
-        messages = find_messages(search_data['words'])
+        messages = find_messages(filter_search(search_data['words']))
         return jsonify({'citation': messages})
 
 
