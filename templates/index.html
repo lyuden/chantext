@@ -16,13 +16,57 @@ $.ajaxPrefilter (function(options, originalOptions, jqXHR) {
     }
 });
 
+function get_message(mes_id, func){
+    // TODO Implement caching
+    $.get("/api/message/"+mes_id,func)
+
+
+}
+function renderSubmessage(mes_id,start,stop, div){
+    
+
+    
+    get_message(mes_id,function(data){
+        var mess =data['message'];
+        divinn = document.createElement("div")
+        divinn.style.backgroundColor="green"
+
+        divinn.textContent =mess.substring(start,stop)
+        div.appendChild(divinn)
+
+
+
+    })
+
+
+}
+
+function renderMessage (message,div){
+
+   regexp =/>>([0-9]+)\{([0-9]+):([0-9]+)\}/g
+
+   prev =0
+   while(match =regexp.exec(message)){
+
+        console.log(match)
+        divinner = document.createElement("div")
+        divinner.textContent=message.substring(prev,match.index)
+        prev = match.index + match[0].length
+        div.appendChild(divinner)
+        renderSubmessage(match[1],match[2],match[3],divinner)
+
+    }
+    divinner = document.createElement("div")
+    divinner.textContent=message.substring(prev,message.length)
+    div.appendChild(divinner)  
+
+}
+
 function setMessage(div,mes_id){
 
-    $.get("/api/message/"+mes_id,function(data){
-        div.textContent = data.message        
+    get_message(mes_id,function(data){
+        renderMessage(data.message,div)        
     })
-   
-
 }
 
 
